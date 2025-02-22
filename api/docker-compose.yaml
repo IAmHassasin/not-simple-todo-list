@@ -1,0 +1,14 @@
+services:
+  postgresqls:
+    container_name: 'todo-db'
+    image: postgres:16
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: alloydbpass
+      POSTGRES_DB: TODODB
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: utc
+    networks:
+      - default

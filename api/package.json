@@ -1,0 +1,23 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "scripts": {
+    "dev": "yarn dotenv -e .env.dev",
+    "prisma:dev": "yarn dev yarn prisma migrate dev",
+    "prisma:clear": "yarn dev yarn prisma migrate reset",
+    "prisma:seed": "yarn dev yarn ts-node prisma/seed/seed.ts"
+  },
+  "devDependencies": {
+    "prisma": "^6.4.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "dotenv": "^16.4.7",
+    "dotenv-cli": "^8.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
