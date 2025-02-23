@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { RouterModule } from "@nestjs/core";
 import { routes } from "./route";
 import { AppController } from "./app.controller";
@@ -8,7 +8,7 @@ import { TaskModule } from "./v1/task/task.module";
 @Module({
     imports: [
         RouterModule.register(routes),
-        TaskModule
+        TaskModule,
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -1,34 +1,48 @@
 import { V1GetTask } from "./entities/get-task.entity";
 import { plainToInstance } from "class-transformer";
-import { V1GetTaskDto, V1GetTasksDto } from "./dto/get-task.dto";
-import { InvalidRequestException } from "src/common/exception/error.exception";
-import { PrismaClient } from "@prisma/client";
+import { V1GetTaskParamDto, V1GetListTaskQueryDto, V1PostTaskBodyDto, V1DeleteTaskParamDto } from "./dto/get-task.dto";
+import { Prisma } from "@prisma/client";
+import { prismaService } from "src/main";
 
 export class TaskService {
-    private prisma: PrismaClient = new PrismaClient();
+    async getListTask(query: V1GetListTaskQueryDto): Promise<V1GetTask[]> {
+        // Build query condition
+        const whereCondition: Prisma.TaskWhereInput[] = [];
+        if (query.id)
+            whereCondition.push({ id: Number(query.id) });
+        if (query.completed) 
+            whereCondition.push({ completed: query.completed === 'true' });
 
-    async getTasks(query: V1GetTasksDto): Promise<V1GetTask[]> {
-        await this.prisma.$connect();
-        if (!query.id || !query.completed)
-            throw new InvalidRequestException();
-        const task = await this.prisma.task.findMany({
-            where: {
-                id: Number(query.id),
-                completed: query.completed
-            }
+        const task = await prismaService.task.findMany({
+            where: whereCondition.length ? { OR: whereCondition } : undefined,
         });
-        await this.prisma.$disconnect();
         return plainToInstance(V1GetTask, task);
     }
 
-    async getTask(query: V1GetTaskDto): Promise<V1GetTask> {
-        await this.prisma.$connect();
-        const task = await this.prisma.task.findUnique({
+    async getTaskById(param: V1GetTaskParamDto): Promise<V1GetTask> {
+        const task = await prismaService.task.findUnique({
             where: {
-                id: Number(query.id)
+                id: Number(param.id)
             }
         });
-        await this.prisma.$disconnect();
+        return plainToInstance(V1GetTask, task);
+    }
+
+    async deleteTask(param: V1DeleteTaskParamDto): Promise<void> {
+        await prismaService.task.delete({
+            where: {
+                id: Number(param.id)
+            }
+        });
+    }
+
+    async createTask(body: V1PostTaskBodyDto): Promise<V1GetTask> {
+        const task = await prismaService.task.create({
+            data: {
+                title: body.title,
+                completed: body.completed
+            }
+        });
         return plainToInstance(V1GetTask, task);
     }
 }

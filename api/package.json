@@ -5,11 +5,12 @@
     "schema": "prisma/schema.prisma"
   },
   "scripts": {
-    "dev": "yarn dotenv -e .env.dev",
+    "dev": "dotenv -e .env.dev --",
     "prisma:dev": "yarn dev yarn prisma migrate dev",
     "prisma:clear": "yarn dev yarn prisma migrate reset",
     "prisma:seed": "yarn dev yarn ts-node prisma/seed/seed.ts",
-    "start": "yarn dev nest start"
+    "start": "yarn dev nest start",
+    "start:watch": "yarn start --debug --watch"
   },
   "devDependencies": {
     "prisma": "^6.4.1"
@@ -22,6 +23,7 @@
     "@prisma/client": "^6.4.1",
     "@types/node": "*",
     "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "dotenv": "^16.4.7",
     "dotenv-cli": "^8.0.0",
     "reflect-metadata": "^0.2.2",
