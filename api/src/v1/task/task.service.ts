@@ -1,7 +1,7 @@
 import { V1GetTask } from "./entities/get-task.entity";
 import { plainToInstance } from "class-transformer";
 import { V1GetTaskParamDto, V1GetListTaskQueryDto, V1PostTaskBodyDto, V1DeleteTaskParamDto } from "./dto/get-task.dto";
-import { Prisma } from "@prisma/client";
+import { Prisma, taskStatus } from "@prisma/client";
 import { prismaService } from "src/main";
 
 export class TaskService {
@@ -10,8 +10,8 @@ export class TaskService {
         const whereCondition: Prisma.TaskWhereInput[] = [];
         if (query.id)
             whereCondition.push({ id: Number(query.id) });
-        if (query.completed) 
-            whereCondition.push({ completed: query.completed === 'true' });
+        if (query.status && [`To Do`, `In Progress`, `Done`, `Cancelled`].includes(query.status)) 
+            whereCondition.push({ status: query.status as Prisma.EnumtaskStatusFilter });
 
         const task = await prismaService.task.findMany({
             where: whereCondition.length ? { OR: whereCondition } : undefined,
@@ -40,7 +40,7 @@ export class TaskService {
         const task = await prismaService.task.create({
             data: {
                 title: body.title,
-                completed: body.completed
+                status: body.status as taskStatus,
             }
         });
         return plainToInstance(V1GetTask, task);

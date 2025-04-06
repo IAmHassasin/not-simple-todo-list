@@ -1,13 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
-import { IsBoolean, IsString } from "class-validator";
+import { IsBoolean, IsIn, IsString } from "class-validator";
 
 export class V1GetListTaskQueryDto {
     @ApiPropertyOptional()
     id: string | undefined;
 
     @ApiPropertyOptional()
-    completed: string | undefined;
+    @IsIn(['To Do', 'In Progress', 'Done', 'Cancelled'])
+    @Transform(({ value }) => (value === undefined ? 'To Do' : value))
+    status: string | undefined;
 }
 
 export class V1GetTaskParamDto {
@@ -23,11 +25,11 @@ export class V1DeleteTaskParamDto {
 export class V1PostTaskBodyDto {
     @ApiProperty()
     @IsString()
-    @Transform(({ value }) => (value === undefined ? '' : value))
+    @Transform(({ value }) => (value === undefined ? 'No Title' : value))
     title!: string;
 
     @ApiProperty()
-    @IsBoolean()
-    @Transform(({ value }) => (value === undefined ? false : value))
-    completed!: boolean;
+    @IsString()
+    @Transform(({ value }) => (value === undefined ? 'ToDo' : value))
+    status!: string;
 }

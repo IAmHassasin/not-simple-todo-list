@@ -24,25 +24,20 @@
 
 2. `prisma:dev`: Runs the Prisma migrations in development mode.
     ```bash
-    yarn prisma migrate dev
+    yarn prisma:dev
     ```
 
 3. `prisma:clear`: Resets the Prisma migrations.
     ```bash
-    yarn prisma migrate reset
+    yarn prisma:clear
     ```
 
 4. `prisma:seed`: Seeds the database using the seed script.
     ```bash
-    yarn ts-node prisma/seed/seed.ts
-    ```
-
-5. `start`: Starts the NestJS application.
-    ```bash
-    yarn nest start
+    yarn prisma:seed
     ```
 
 6. `start:watch`: Starts the NestJS application in watch mode with debugging enabled.
     ```bash
-    yarn start --debug --watch
+    yarn start:watch
     ```

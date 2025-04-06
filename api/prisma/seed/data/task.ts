@@ -1,14 +1,20 @@
-export const taskData = [
+import { Prisma } from "@prisma/client";
+
+export const taskData: Prisma.TaskCreateManyInput[] = [
     {
         title: 'Task 1',
-        completed: true,
+        status: 'ToDo',
     },
     {
         title: 'Task 2',
-        completed: false,
+        status: 'InProgress',
     },
     {
         title: 'Task 3',
-        completed: false,
+        status: 'Done',
     },
+    {
+        title: 'Task 4',
+        status: 'Cancelled',
+    }
 ];
