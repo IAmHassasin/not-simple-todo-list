@@ -13,7 +13,8 @@
 1. Language: Typescript
 2. DB: PostgreSQL, ORM Prisma
 3. Unit test, Endpoint test: Jest (TODO, cuz im lazy af)
-4. NestJS for APIs
+4. CI/CD: Github action (TODO)
+5. NestJS for APIs
 6. OpenAPI
 
 ## Command
