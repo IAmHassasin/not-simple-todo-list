@@ -4,6 +4,8 @@ import { V1GetTaskParamDto, V1GetListTaskQueryDto, V1PostTaskBodyDto, V1DeleteTa
 import { Prisma, taskStatus } from "@prisma/client";
 import { prismaService } from "src/main";
 
+// This service is not completely RESTful, but it is a good start. It uses Prisma to interact with the database and transform the data using class-transformer.
+// TODO: Bulk Delete, Put
 export class TaskService {
     async getListTask(query: V1GetListTaskQueryDto): Promise<V1GetTask[]> {
         // Build query condition
